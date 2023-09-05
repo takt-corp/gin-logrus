@@ -92,11 +92,7 @@ func LoggerMiddleware(params LoggerMiddlewareParams) gin.HandlerFunc {
 					"query":  c.Request.URL.Query(),
 				}).Warn(msg)
 			} else {
-				logger.WithFields(logrus.Fields{
-					"method": c.Request.Method,
-					"path":   c.Request.URL.Path,
-					"query":  c.Request.URL.Query(),
-				}).Info(msg)
+				logger.Info(msg)
 			}
 
 		}
