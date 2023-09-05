@@ -80,11 +80,23 @@ func LoggerMiddleware(params LoggerMiddlewareParams) gin.HandlerFunc {
 			msg := fmt.Sprintf("[%s] %d %s (%dms)", timestamp.Format(time.RFC3339), statusCode, path, latency.Milliseconds())
 
 			if statusCode >= 500 {
-				logger.Error(msg)
+				logger.WithFields(logrus.Fields{
+					"method": c.Request.Method,
+					"path":   c.Request.URL.Path,
+					"query":  c.Request.URL.Query(),
+				}).Error(msg)
 			} else if statusCode >= 400 {
-				logger.Warn(msg)
+				logger.WithFields(logrus.Fields{
+					"method": c.Request.Method,
+					"path":   c.Request.URL.Path,
+					"query":  c.Request.URL.Query(),
+				}).Warn(msg)
 			} else {
-				logger.Info(msg)
+				logger.WithFields(logrus.Fields{
+					"method": c.Request.Method,
+					"path":   c.Request.URL.Path,
+					"query":  c.Request.URL.Query(),
+				}).Info(msg)
 			}
 
 		}
